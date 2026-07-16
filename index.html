@@ -1,0 +1,249 @@
+<title>Явира — управленческая аналитика из 1С, до копейки</title>
+<style>
+  :root{
+    --bg:#f5f7f9; --surface:#ffffff; --surface-2:#eef1f5;
+    --ink:#161b21; --ink-2:#4b5460; --muted:#8b939f; --line:#e0e5ec;
+    --accent:#0d6e66; --accent-ink:#0a5750; --accent-soft:#e2f0ee;
+    --good:#1f8f4e; --good-bg:#e7f4ec;
+    --mono:ui-monospace,"Cascadia Code","Consolas","SF Mono",monospace;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --bg:#0e1116; --surface:#161b22; --surface-2:#1c222b;
+      --ink:#e7eaef; --ink-2:#aab2bd; --muted:#6c7580; --line:#242c36;
+      --accent:#2fb3a6; --accent-ink:#57c8bb; --accent-soft:#12312d;
+      --good:#4cc47b; --good-bg:#122a1e;
+    }
+  }
+  :root[data-theme="light"]{
+    --bg:#f5f7f9; --surface:#ffffff; --surface-2:#eef1f5;
+    --ink:#161b21; --ink-2:#4b5460; --muted:#8b939f; --line:#e0e5ec;
+    --accent:#0d6e66; --accent-ink:#0a5750; --accent-soft:#e2f0ee;
+    --good:#1f8f4e; --good-bg:#e7f4ec;
+  }
+  :root[data-theme="dark"]{
+    --bg:#0e1116; --surface:#161b22; --surface-2:#1c222b;
+    --ink:#e7eaef; --ink-2:#aab2bd; --muted:#6c7580; --line:#242c36;
+    --accent:#2fb3a6; --accent-ink:#57c8bb; --accent-soft:#12312d;
+    --good:#4cc47b; --good-bg:#122a1e;
+  }
+  *{box-sizing:border-box}
+  body{margin:0; font-family:var(--sans); color:var(--ink); background:var(--bg); -webkit-font-smoothing:antialiased}
+  .container{max-width:1060px; margin:0 auto; padding:0 clamp(18px,4vw,40px)}
+
+  header.top{position:sticky; top:0; z-index:10; background:color-mix(in srgb, var(--bg) 88%, transparent);
+             backdrop-filter:blur(8px); border-bottom:1px solid var(--line)}
+  .nav{display:flex; align-items:center; gap:22px; padding:14px 0}
+  .logo{font-weight:800; font-size:19px; letter-spacing:-.02em}
+  .logo .dot{color:var(--accent)}
+  .nav a{color:var(--ink-2); text-decoration:none; font-size:14px}
+  .nav a:hover{color:var(--accent-ink)}
+  .nav .cta{margin-left:auto; background:var(--accent); color:#fff; padding:9px 16px; border-radius:9px; font-weight:650}
+  .nav .cta:hover{color:#fff; filter:brightness(1.08)}
+  @media (max-width:720px){ .nav a:not(.cta):not(.logo){display:none} }
+
+  /* hero */
+  .hero{padding:clamp(48px,8vw,104px) 0 clamp(30px,5vw,56px)}
+  .kicker{font-family:var(--mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent-ink); margin:0 0 18px; display:flex; align-items:center; gap:10px}
+  .kicker::before{content:""; width:26px; height:2px; background:var(--accent)}
+  h1{font-size:clamp(34px,5.6vw,60px); line-height:1.04; margin:0; letter-spacing:-.025em; font-weight:830; text-wrap:balance; max-width:20ch}
+  h1 .acc{color:var(--accent-ink)}
+  .hero p.lead{font-size:clamp(16px,1.8vw,20px); line-height:1.55; color:var(--ink-2); max-width:56ch; margin:22px 0 0}
+  .hero-cta{display:flex; gap:14px; margin-top:30px; flex-wrap:wrap; align-items:center}
+  .btn{display:inline-block; padding:13px 22px; border-radius:11px; font-weight:700; font-size:15.5px; text-decoration:none; transition:filter .15s}
+  .btn.primary{background:var(--accent); color:#fff}
+  .btn.primary:hover{filter:brightness(1.08)}
+  .btn.ghost{color:var(--accent-ink); border:1.5px solid var(--accent)}
+  .proof-line{font-family:var(--mono); font-size:12.5px; color:var(--muted); margin-top:26px}
+  .proof-line b{color:var(--good); font-weight:700}
+
+  /* privacy interactive */
+  .privacy-demo{background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:clamp(20px,3vw,30px); margin:clamp(28px,4vw,44px) 0}
+  .pd-head{display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap; margin-bottom:18px}
+  .pd-head h2{margin:0; font-size:clamp(19px,2.4vw,24px); letter-spacing:-.01em}
+  .switch{display:flex; border:1px solid var(--line); border-radius:999px; overflow:hidden}
+  .switch button{font:inherit; font-size:13.5px; font-weight:650; padding:9px 16px; border:0; cursor:pointer; background:var(--surface); color:var(--ink-2)}
+  .switch button.on{background:var(--accent); color:#fff}
+  .switch button:focus-visible{outline:2px solid var(--accent); outline-offset:-2px}
+  .ledger{width:100%; border-collapse:collapse; font-size:14.5px}
+  .ledger th{font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.1em; color:var(--muted); text-align:left; padding:8px 10px; border-bottom:1px solid var(--line)}
+  .ledger td{padding:11px 10px; border-bottom:1px solid var(--line)}
+  .ledger td.num{font-family:var(--mono); font-variant-numeric:tabular-nums; text-align:right}
+  .tok{font-family:var(--mono); font-size:13px; background:var(--accent-soft); color:var(--accent-ink); padding:3px 8px; border-radius:6px}
+  .pd-note{font-size:13.5px; color:var(--ink-2); margin-top:14px; line-height:1.55}
+  .pd-note b{color:var(--accent-ink)}
+
+  /* sections */
+  section{padding:clamp(30px,5vw,58px) 0}
+  section h2.sec{font-size:clamp(24px,3.4vw,36px); letter-spacing:-.02em; margin:0 0 10px; text-wrap:balance; font-weight:780}
+  .sec-sub{color:var(--ink-2); font-size:15.5px; max-width:70ch; margin:0 0 26px; line-height:1.55}
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:18px}
+  .grid3{display:grid; grid-template-columns:repeat(3,1fr); gap:18px}
+  @media (max-width:820px){ .grid2,.grid3{grid-template-columns:1fr} }
+  .card{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:22px}
+  .card h3{margin:0 0 8px; font-size:16.5px}
+  .card p{margin:0; color:var(--ink-2); font-size:14.5px; line-height:1.6}
+  .card .eyebrow{font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.12em; color:var(--muted); display:block; margin-bottom:10px}
+
+  /* tiers */
+  .tiers{display:grid; grid-template-columns:repeat(3,1fr); gap:18px}
+  @media (max-width:820px){ .tiers{grid-template-columns:1fr} }
+  .tier{background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:24px; display:flex; flex-direction:column; gap:10px}
+  .tier.featured{border-color:var(--accent); box-shadow:0 0 0 1px var(--accent) inset}
+  .tier .t-name{font-size:22px; font-weight:800; letter-spacing:-.01em}
+  .tier .t-tag{font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.1em; color:var(--muted)}
+  .tier .t-tag.hot{color:var(--good)}
+  .tier ul{margin:6px 0 0; padding-left:18px; color:var(--ink-2); font-size:14px; line-height:1.65}
+  .enterprise-line{margin-top:16px; font-size:13.5px; color:var(--muted)}
+
+  /* steps */
+  .steps{display:grid; grid-template-columns:repeat(3,1fr); gap:18px; counter-reset:step}
+  @media (max-width:820px){ .steps{grid-template-columns:1fr} }
+  .step{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:22px; position:relative}
+  .step::before{counter-increment:step; content:counter(step); font-family:var(--mono); font-weight:700; color:var(--accent-ink);
+                width:32px; height:32px; display:grid; place-items:center; border:1.5px solid var(--accent); border-radius:9px; margin-bottom:12px}
+  .step h3{margin:0 0 6px; font-size:16px}
+  .step p{margin:0; color:var(--ink-2); font-size:14px; line-height:1.6}
+
+  .accountant{background:var(--accent-soft); border:1px solid color-mix(in srgb, var(--accent) 30%, transparent); border-radius:16px; padding:clamp(20px,3vw,28px)}
+  .accountant h2{margin:0 0 8px; font-size:clamp(19px,2.4vw,24px)}
+  .accountant p{margin:0; color:var(--ink-2); line-height:1.6; max-width:78ch}
+
+  footer{border-top:1px solid var(--line); padding:26px 0 40px; margin-top:20px}
+  .foot{display:flex; gap:18px; flex-wrap:wrap; align-items:baseline; justify-content:space-between; color:var(--muted); font-size:13px}
+  .foot .mono{font-family:var(--mono); font-size:11.5px}
+</style>
+
+<header class="top"><div class="container"><nav class="nav">
+  <span class="logo">Явира<span class="dot">.</span></span>
+  <a href="#how">Как работает</a>
+  <a href="#privacy">Приватность</a>
+  <a href="#tiers">Тарифы</a>
+  <a href="#demo" class="cta">Демо за один день</a>
+</nav></div></header>
+
+<div class="container">
+
+  <section class="hero">
+    <p class="kicker">Управленческая аналитика из вашей 1С</p>
+    <h1>Сходится с бухгалтерией <span class="acc">до копейки.</span><br>И мы не видим ваших данных.</h1>
+    <p class="lead">Явира превращает проводки типовой 1С в картину для решений: маржа, выручка и себестоимость по продуктам, клиентам и регионам. Каждая цифра сверяется с оборотно-сальдовой ведомостью — а имена ваших контрагентов не покидают ваш офис.</p>
+    <div class="hero-cta">
+      <a class="btn primary" href="#demo">Увидеть свою маржу к вечеру</a>
+      <a class="btn ghost" href="#privacy">Как устроена приватность</a>
+    </div>
+    <p class="proof-line">Проверено на реальной базе 1С: 91 810 проводок за месяц · сверка с ОСВ: <b>Δ = 0,00</b></p>
+  </section>
+
+  <div class="privacy-demo" id="privacy">
+    <div class="pd-head">
+      <h2>Что видим мы — а что видите вы</h2>
+      <div class="switch" role="group" aria-label="Переключение вида">
+        <button id="btnUser" class="on" type="button">Ваш экран</button>
+        <button id="btnOp" type="button">Наше облако</button>
+      </div>
+    </div>
+    <table class="ledger" id="ledger">
+      <thead><tr><th>Клиент</th><th>Продукт</th><th style="text-align:right">Выручка, BYN</th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <p class="pd-note" id="pdNote"></p>
+  </div>
+
+  <section id="pain">
+    <h2 class="sec">Учёт говорит счетами. Бизнес спрашивает разрезами.</h2>
+    <p class="sec-sub">Бухгалтерия закрывает период безупречно — но «какой продукт в каком регионе приносит маржу?» из плана счетов напрямую не достать. Обычно это ручной Excel, который вечно расходится с учётом.</p>
+    <div class="grid2">
+      <div class="card"><span class="eyebrow">Было</span><h3>Ручная пересборка</h3><p>Аналитик перекладывает счета в таблицы. Долго, дорого, и цифры «гуляют» — им не верит ни бухгалтер, ни собственник.</p></div>
+      <div class="card"><span class="eyebrow">Стало</span><h3>Мост Явиры</h3><p>Проводки автоматически становятся управленческими мерами и разрезами. Правила перевода — декларативные: новый показатель добавляется настройкой, без программиста.</p></div>
+    </div>
+  </section>
+
+  <section id="how">
+    <h2 class="sec">Доверие встроено в архитектуру</h2>
+    <p class="sec-sub">Каждый расчёт замыкается контрольным контуром: витрина обязана совпасть с оборотно-сальдовой ведомостью. Расхождение на копейку — красный сигнал, а не сноска мелким шрифтом.</p>
+    <div class="grid3">
+      <div class="card"><span class="eyebrow">01 · Коннектор</span><h3>В вашем периметре</h3><p>Читает проводки из 1С только на чтение. Устанавливается за час, наружу открытых портов не требует.</p></div>
+      <div class="card"><span class="eyebrow">02 · Аналитика</span><h3>Разрезы и ответы</h3><p>Маржа по продуктам, клиентам, регионам. Тренд или сезонность? Что уронило долю региона? Drill-down до документа.</p></div>
+      <div class="card"><span class="eyebrow">03 · Сверка</span><h3>До копейки</h3><p>Автоматическая сверка каждого показателя с ОСВ. Ваш бухгалтер может проверить нас своими руками — мы на этом настаиваем.</p></div>
+    </div>
+  </section>
+
+  <section id="tiers">
+    <h2 class="sec">Уровень приватности — ваш выбор</h2>
+    <p class="sec-sub">Три тира. Чем выше — тем меньше видит облако. Это не обещание в договоре, а архитектура: на старших тирах мы технически не можем увидеть то, чего нам не доверили.</p>
+    <div class="tiers">
+      <div class="tier">
+        <span class="t-tag">Тир 0</span>
+        <span class="t-name">Нюх</span>
+        <ul><li>Все данные в облаке открыто</li><li>Максимальная простота</li><li>Для нечувствительной аналитики</li></ul>
+      </div>
+      <div class="tier featured">
+        <span class="t-tag hot">Тир 1 · работает сегодня</span>
+        <span class="t-name">Взор</span>
+        <ul><li>В облако уходят только токены и суммы</li><li>Имена контрагентов и номенклатуры — только у вас, в локальном словаре</li><li>Мы видим «кто-то продал на 45 000» — но не знаем, кто, что и кому</li></ul>
+      </div>
+      <div class="tier">
+        <span class="t-tag">Тир 2 · дорожная карта</span>
+        <span class="t-name">Явь</span>
+        <ul><li>Скрыты и сами суммы — облако складывает зашифрованные числа</li><li>Метод проверен прототипом: точность сверки сохраняется до копейки</li></ul>
+      </div>
+    </div>
+    <p class="enterprise-line">Нужен полный контроль? Self-hosted: весь склад данных — на ваших серверах. Обсуждается отдельно.</p>
+  </section>
+
+  <section>
+    <div class="accountant">
+      <h2>Слово к бухгалтеру</h2>
+      <p>Мы говорим на вашем языке: счёт, сторона, оборот, ОСВ. Коннектор ничего не пишет в базу — только читает. А сверка до копейки — это не маркетинг, это наш главный тест: если витрина разошлась с вашей ведомостью, система сама показывает красный флаг. Проверьте нас — возьмите любой счёт и сверьте вручную.</p>
+    </div>
+  </section>
+
+  <section id="demo">
+    <h2 class="sec">Демо за один день — на ваших данных</h2>
+    <p class="sec-sub">Не слайды с чужими цифрами, а ваша собственная маржа к вечеру.</p>
+    <div class="steps">
+      <div class="step"><h3>Утром — коннектор</h3><p>Ставим коннектор в вашем периметре (час работы вашего 1С-специалиста, доступ только на чтение).</p></div>
+      <div class="step"><h3>Днём — сверка</h3><p>Загружаем период, сверяем с ОСВ на ваших глазах. Δ = 0,00 — или разбираемся, почему.</p></div>
+      <div class="step"><h3>Вечером — ваша маржа</h3><p>Дашборд: маржа по продуктам и клиентам, динамика, drill-down. Дальше решаете вы.</p></div>
+    </div>
+  </section>
+
+</div>
+
+<footer><div class="container"><div class="foot">
+  <span><b>Явира</b> — мост от бухучёта к управленческой аналитике</span>
+  <span>Данные размещаются в Республике Беларусь</span>
+  <span class="mono">контакты — уточняются · черновик лендинга</span>
+</div></div></footer>
+
+<script>
+  var ROWS_USER = [
+    ["Столичная канцелярия", "Фломастеры «Юность»", "45 000,00"],
+    ["Канцторг-Брест", "Маркеры перманентные", "31 240,50"],
+    ["Гомель-Снаб", "Тетради 48 л.", "18 730,00"]
+  ];
+  var ROWS_OP = [
+    ["t_mzjz6bu75nz2…", "t_t4ns5ozxi3mk…", "45 000,00"],
+    ["t_ealaoczcfda5…", "t_c9vw2hqk44av…", "31 240,50"],
+    ["t_6bpxhqw7qquz…", "t_zvqwfh4rfc7x…", "18 730,00"]
+  ];
+  var NOTE_USER = "<b>Ваш экран:</b> имена разворачиваются из словаря, который хранится только в вашем периметре. Данные синтетические — реальных клиентов мы не показали бы даже здесь.";
+  var NOTE_OP = "<b>Наше облако (тир «Взор»):</b> так выглядят те же строки для нас. Суммы и связи — есть, аналитика работает. Кто и что — мы не знаем: ключ от имён нам не принадлежит.";
+  var btnU = document.getElementById("btnUser"), btnO = document.getElementById("btnOp");
+  var tbody = document.querySelector("#ledger tbody"), note = document.getElementById("pdNote");
+  function render(op){
+    var rows = op ? ROWS_OP : ROWS_USER;
+    tbody.innerHTML = rows.map(function(r){
+      var c = op ? '<span class="tok">'+r[0]+'</span>' : r[0];
+      var p = op ? '<span class="tok">'+r[1]+'</span>' : r[1];
+      return "<tr><td>"+c+"</td><td>"+p+"</td><td class='num'>"+r[2]+"</td></tr>";
+    }).join("");
+    note.innerHTML = op ? NOTE_OP : NOTE_USER;
+    btnU.classList.toggle("on", !op); btnO.classList.toggle("on", op);
+  }
+  btnU.addEventListener("click", function(){ render(false); });
+  btnO.addEventListener("click", function(){ render(true); });
+  render(false);
+</script>

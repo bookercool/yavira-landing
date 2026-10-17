@@ -591,6 +591,9 @@ body{margin:0}
   try{var saved=localStorage.getItem('yv-theme');if(saved==='dark'||saved==='light')root.setAttribute('data-theme',saved)}catch(e){}
   label();
   btn.addEventListener('click',function(){var t=isDark()?'light':'dark';root.setAttribute('data-theme',t);try{localStorage.setItem('yv-theme',t)}catch(e){}label()});
+  // источник заявки: yavira.by/?from=<метка> → t.me/yavira_bot?start=<метка>; без метки — site
+  var src='site';try{var f=new URLSearchParams(location.search).get('from');if(f&&/^[A-Za-z0-9_-]{1,64}$/.test(f))src=f}catch(e){}
+  [].forEach.call(document.querySelectorAll('a[href="https://t.me/yavira_bot"]'),function(a){a.href='https://t.me/yavira_bot?start='+src});
   var reduce=false;try{reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){}
   if(reduce)return;
   var els=[].slice.call(document.querySelectorAll('[data-count]'));

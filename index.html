@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Явира · Свод — маржа, деньги и дебиторка из вашей 1С к утру</title>
-<meta name="description" content="Управленческая аналитика из 1С для собственника: маржа, деньги и дебиторка — к утру. Сверено с бухгалтерией до копейки. Имена клиентов не покидают вашу 1С.">
+<title>Явира · Свод — маржа, деньги и просроченная дебиторка из вашей 1С к утру</title>
+<meta name="description" content="Управленческая аналитика из 1С для собственника: маржа, деньги и просроченная дебиторка (долги старше 60 дней) — к утру. Сверено с бухгалтерией до копейки. Имена клиентов не покидают вашу 1С.">
 <meta name="robots" content="index, follow">
 <meta name="google-site-verification" content="lBrbj4LfIhwT6RFKzpgSrV05ovWxNRhJOcgZC73IVL0">
 <meta name="yandex-verification" content="290878604571fc91">
@@ -14,13 +14,13 @@
 <meta property="og:locale" content="ru_RU">
 <meta property="og:site_name" content="Явира · Свод">
 <meta property="og:url" content="https://yavira.by/">
-<meta property="og:title" content="Явира · Свод — маржа, деньги и дебиторка из вашей 1С к утру">
-<meta property="og:description" content="Управленческая аналитика из 1С для собственника: маржа, деньги и дебиторка — к утру. Сверено с бухгалтерией до копейки. Имена клиентов не покидают вашу 1С.">
+<meta property="og:title" content="Явира · Свод — маржа, деньги и просроченная дебиторка из вашей 1С к утру">
+<meta property="og:description" content="Управленческая аналитика из 1С для собственника: маржа, деньги и просроченная дебиторка (долги старше 60 дней) — к утру. Сверено с бухгалтерией до копейки. Имена клиентов не покидают вашу 1С.">
 <meta property="og:image" content="https://yavira.by/img/og_cover.jpg">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Явира · Свод: маржа, деньги и дебиторка из вашей 1С — к утру. Сверено с бухгалтерией до копейки.">
+<meta property="og:image:alt" content="Явира · Свод: маржа, деньги и просроченная дебиторка из вашей 1С — к утру. Сверено с бухгалтерией до копейки.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://yavira.by/img/og_cover.jpg">
 <link rel="icon" type="image/png" href="img/logo.png">
@@ -75,7 +75,7 @@
     "RU",
     "KZ"
    ],
-   "description": "Управленческая аналитика из 1С для собственника малого и среднего бизнеса: маржа по клиентам и продуктам, деньги и прогноз денег, дебиторка и кредиторка по возрасту, запасы, P&L месяц к месяцу, точка безубыточности, находки и ассистент. Каждая цифра сверена с бухгалтерией 1С до копейки; имена контрагентов и номенклатуры заменяются метками внутри 1С и не покидают её.",
+   "description": "Управленческая аналитика из 1С для собственника малого и среднего бизнеса: маржа по клиентам и продуктам, деньги и прогноз денег, дебиторка и кредиторка по возрасту (просроченная дебиторка — долги старше 60 дней — отдельно), запасы, P&L месяц к месяцу, точка безубыточности, находки и ассистент. Каждая цифра сверена с бухгалтерией 1С до копейки; имена контрагентов и номенклатуры заменяются метками внутри 1С и не покидают её.",
    "publisher": {
     "@id": "https://yavira.by/#org"
    }
@@ -128,6 +128,21 @@ body{margin:0}
 .yv .ic-sun{display:none}.yv .ic-moon{display:inline-flex}
 .yv[data-theme=dark] .ic-sun{display:inline-flex}.yv[data-theme=dark] .ic-moon{display:none}
 @media (prefers-color-scheme: dark){.yv[data-theme=auto] .ic-sun{display:inline-flex}.yv[data-theme=auto] .ic-moon{display:none}}
+
+/* приватность: метка ⇄ имя (без JS — статично видно имя) */
+.yv .pv-name{display:inline-grid;min-width:0}
+.yv .pv-name>span{grid-area:1/1;transition:opacity .25s ease,transform .25s ease}
+.yv .pv-tag{opacity:0;transform:translateY(-6px)}
+.yv .pv-real{opacity:1;transform:none}
+.yv .pv-js .pv-tag{opacity:1;transform:none}
+.yv .pv-js .pv-real{opacity:0;transform:translateY(6px)}
+.yv .pv-js[data-revealed=true] .pv-tag{opacity:0;transform:translateY(-6px)}
+.yv .pv-js[data-revealed=true] .pv-real{opacity:1;transform:none}
+.yv .pv-btn{display:inline-flex;align-items:center;gap:8px;align-self:flex-start;min-height:44px;padding:0 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--text);font:inherit;font-size:15px;font-weight:500;cursor:pointer;transition:border-color .15s,color .15s}
+.yv .pv-btn:hover{border-color:var(--brand);color:var(--brand)}
+.yv .pv-btn[aria-pressed=true]{border-color:var(--brand);color:var(--brand)}
+.yv .pv-btn[hidden]{display:none}
+@media (prefers-reduced-motion: reduce){.yv .pv-name>span{transition:none}}
 </style>
 </head>
 <body>
@@ -164,9 +179,9 @@ body{margin:0}
 <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: clamp(40px, 5vw, 64px)">
 <div style="max-width: 980px; display: flex; flex-direction: column; gap: 24px">
 <p style="margin: 0; font-size: 14px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--h-accent)">Управленческая аналитика из вашей 1С</p>
-<h1 style="margin: 0; font-family: 'Literata', Georgia, serif; font-weight: 600; font-size: clamp(42px, 6.6vw, 88px); line-height: 1.02; letter-spacing: -0.025em; text-wrap: balance">Маржа, деньги и дебиторка из вашей 1С — <span style="color: var(--h-accent)">к утру.</span></h1>
+<h1 style="margin: 0; font-family: 'Literata', Georgia, serif; font-weight: 600; font-size: clamp(38px, 6.6vw, 88px); line-height: 1.02; letter-spacing: -0.025em; text-wrap: balance">Маржа, деньги и&nbsp;просроченная дебиторка из&nbsp;вашей 1С&nbsp;—&nbsp;<span style="color: var(--h-accent); white-space: nowrap">к утру.</span></h1>
 <p style="margin: 0; display: inline-flex; align-self: flex-start; align-items: center; gap: 10px; padding: 10px 16px; border-radius: 999px; border: 1px solid var(--h-line); font-size: clamp(16px, 1.5vw, 19px); font-weight: 500"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color: var(--h-accent)"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg><span>Те же цифры, что в <span style="font-weight: 700; text-decoration: underline; text-decoration-color: var(--h-line); text-underline-offset: 4px">бухгалтерии</span>. <span style="color: var(--h-accent); font-weight: 700">Другие ответы.</span></span></p>
-<p style="margin: 0; font-size: clamp(17px, 1.6vw, 21px); line-height: 1.55; color: var(--h-text-2); max-width: 760px">Ставите расширение в 1С — и каждое утро видите, на чём зарабатываете, куда уходят деньги и кто задерживает оплату. Имена клиентов не покидают вашу 1С.</p>
+<p style="margin: 0; font-size: clamp(17px, 1.6vw, 21px); line-height: 1.55; color: var(--h-text-2); max-width: 760px">Ставите расширение в 1С — и каждое утро видите, на чём зарабатываете, куда уходят деньги и кто задерживает оплату — долги старше 60 дней видны отдельно. Имена клиентов не покидают вашу 1С.</p>
 <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 6px">
 <a class="btn btn-hero" href="https://t.me/yavira_bot" style="display: inline-flex; align-items: center; min-height: 56px; padding: 0 30px; background: var(--h-accent); border-radius: 12px; font-size: 18px; font-weight: 600; box-sizing: border-box">Оставить заявку</a>
 <a class="btn btn-hero-ghost" href="https://demo.yavira.by" style="display: inline-flex; align-items: center; min-height: 56px; padding: 0 26px; border: 1px solid var(--h-line); border-radius: 12px; font-size: 18px; font-weight: 500; box-sizing: border-box">Посмотреть демо — без регистрации</a>
@@ -192,7 +207,7 @@ body{margin:0}
 <svg viewBox="0 0 120 30" width="100%" height="34" preserveAspectRatio="none" aria-hidden="true" style="color: var(--h-accent); margin-top: 6px"><polyline class="draw" pathLength="1" points="2,20 6,24 10,10 14,22 18,8 22,20 26,12 30,22 34,9 38,19 42,11 46,21 50,9 54,20 58,12 62,22 66,10 70,21 74,13 78,23 82,11 86,20 90,14 94,24 98,12 102,22 106,15 110,22 114,14 118,13" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"></polyline></svg>
 </div>
 <div style="background: var(--h-bg); padding: 24px 24px 20px; display: flex; flex-direction: column; gap: 6px">
-<span style="font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--h-amber)">Дебиторка 60+ · находка</span>
+<span style="font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--h-amber)">Просроченная · 60+ дней</span>
 <span class="num" style="font-size: clamp(34px, 3.2vw, 46px); white-space: nowrap; font-weight: 500; line-height: 1.05; letter-spacing: -0.02em; color: var(--h-amber)"><span data-count="47.9">47,9</span> <span style="font-size: 16px; color: var(--h-text-2); letter-spacing: 0; white-space: nowrap">тыс. BYN</span></span>
 <svg viewBox="0 0 120 30" width="100%" height="34" preserveAspectRatio="none" aria-hidden="true" style="color: var(--h-amber); margin-top: 6px"><polyline class="draw" pathLength="1" points="2,25 14,25 24,24 32,22 40,23 48,19 56,17 64,16 72,14 80,13 88,12 96,11 104,8 112,6 118,4" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"></polyline></svg>
 </div>
@@ -240,7 +255,7 @@ body{margin:0}
 <div style="padding: 28px 28px 8px 0; display: flex; flex-direction: column; gap: 14px">
 <span class="num" style="font-size: 15px; color: var(--amber-text); font-weight: 500">03</span>
 <p style="margin: 0; font-family: 'Literata', Georgia, serif; font-size: clamp(26px, 2.6vw, 34px); line-height: 1.15; font-weight: 500">Кто держит мои деньги?</p>
-<p style="margin: 0; font-size: 16px; line-height: 1.55; color: var(--text-2)">Дебиторка и кредиторка по возрасту — и находки, когда что-то зависло.</p>
+<p style="margin: 0; font-size: 16px; line-height: 1.55; color: var(--text-2)">Дебиторка и кредиторка по возрасту; просроченная — долги старше 60 дней — отдельно. И находки, когда что-то зависло.</p>
 </div>
 </div>
 </div>
@@ -361,6 +376,14 @@ body{margin:0}
 <span style="font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase">Находка</span>
 </div>
 <p style="margin: 0; font-family: 'Literata', Georgia, serif; font-size: clamp(26px, 2.8vw, 34px); line-height: 1.2; color: var(--text)">Один клиент держит две трети бизнеса</p>
+<figure style="margin: 4px 0 0; display: flex; flex-direction: column; gap: 10px">
+<p style="margin: 0; font-family: 'Literata', Georgia, serif; font-size: clamp(40px, 4.4vw, 56px); line-height: 1; font-weight: 600; color: var(--amber-text)">⅔ <span style="font-family: 'Golos Text', system-ui, sans-serif; font-size: 0.4em; font-weight: 600; letter-spacing: 0">выручки</span></p>
+<div role="img" aria-label="Один клиент — около двух третей выручки, остальные — около трети" style="display: flex; gap: 4px; height: 16px">
+<span style="flex: 2 1 0; border-radius: 999px 4px 4px 999px; background: var(--amber)"></span>
+<span style="flex: 1 1 0; border-radius: 4px 999px 999px 4px; background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--text-3)"></span>
+</div>
+<figcaption aria-hidden="true" style="display: flex; gap: 4px; font-size: 13px; line-height: 1.3; color: var(--text-2)"><span style="flex: 2 1 0">один клиент</span><span style="flex: 1 1 0">остальные</span></figcaption>
+</figure>
 <p style="margin: 0; font-size: 15px; line-height: 1.55; color: var(--text-2)">Реальная находка первого подключения; имён мы не знаем — токенизация.</p>
 </div>
 <div style="padding: clamp(24px, 3vw, 36px); border-radius: 18px; border: 1px solid var(--line); background: var(--bg); display: flex; flex-direction: column; gap: 18px">
@@ -391,19 +414,6 @@ body{margin:0}
 <div style="padding: clamp(24px, 3vw, 36px); border-radius: 18px; background: var(--surface); border: 1px solid var(--line); display: flex; flex-direction: column; gap: 20px">
 <div style="display: flex; flex-direction: column; gap: 8px">
 <span class="num" style="font-size: 14px; color: var(--brand); font-weight: 500">А</span>
-<h3 style="margin: 0; font-family: 'Literata', Georgia, serif; font-weight: 500; font-size: 26px; line-height: 1.2">С публикацией — забираем мы</h3>
-<p style="margin: 0; font-size: 16px; line-height: 1.55; color: var(--text-2)">Подходит, если у вас есть веб-сервер (Apache или IIS) и администратор.</p>
-</div>
-<ol style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 16px; border-top: 1px solid var(--line); padding-top: 20px">
-<li style="display: flex; gap: 14px; align-items: flex-start"><span class="num" style="flex: none; width: 28px; height: 28px; border-radius: 50%; background: var(--brand-soft); color: var(--brand); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 500">1</span><span style="font-size: 16px; line-height: 1.55">Ваш программист 1С ставит расширение — 10 минут, без снятия конфигурации с поддержки.</span></li>
-<li style="display: flex; gap: 14px; align-items: flex-start"><span class="num" style="flex: none; width: 28px; height: 28px; border-radius: 50%; background: var(--brand-soft); color: var(--brand); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 500">2</span><span style="font-size: 16px; line-height: 1.55">Администратор публикует два HTTP-сервиса и открывает их <strong>только нашему адресу</strong> — файл настройки собирает мастер в кабинете.</span></li>
-<li style="display: flex; gap: 14px; align-items: flex-start"><span class="num" style="flex: none; width: 28px; height: 28px; border-radius: 50%; background: var(--brand-soft); color: var(--brand); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 500">3</span><span style="font-size: 16px; line-height: 1.55">Ключ доступа мы записываем в вашу базу сами, по кнопке в мастере. Дальше загрузка идёт сама, ночью.</span></li>
-</ol>
-</div>
-
-<div style="padding: clamp(24px, 3vw, 36px); border-radius: 18px; background: var(--surface); border: 1px solid var(--line); display: flex; flex-direction: column; gap: 20px">
-<div style="display: flex; flex-direction: column; gap: 8px">
-<span class="num" style="font-size: 14px; color: var(--brand); font-weight: 500">Б</span>
 <h3 style="margin: 0; font-family: 'Literata', Georgia, serif; font-weight: 500; font-size: 26px; line-height: 1.2">Без публикации — 1С отправляет сама</h3>
 <p style="margin: 0; font-size: 16px; line-height: 1.55; color: var(--text-2)">Подходит, если веб-сервера нет или открывать его наружу нельзя.</p>
 </div>
@@ -411,6 +421,19 @@ body{margin:0}
 <li style="display: flex; gap: 14px; align-items: flex-start"><span class="num" style="flex: none; width: 28px; height: 28px; border-radius: 50%; background: var(--brand-soft); color: var(--brand); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 500">1</span><span style="font-size: 16px; line-height: 1.55">Ставите расширение.</span></li>
 <li style="display: flex; gap: 14px; align-items: flex-start"><span class="num" style="flex: none; width: 28px; height: 28px; border-radius: 50%; background: var(--brand-soft); color: var(--brand); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 500">2</span><span style="font-size: 16px; line-height: 1.55">В кабинете получаете <strong>код подключения</strong>, в 1С вводите его в обработке «Явира: подключение без публикации».</span></li>
 <li style="display: flex; gap: 14px; align-items: flex-start"><span class="num" style="flex: none; width: 28px; height: 28px; border-radius: 50%; background: var(--brand-soft); color: var(--brand); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 500">3</span><span style="font-size: 16px; line-height: 1.55">Всё. 1С сама обращается к нам <strong>исходящим</strong> защищённым соединением — входящих подключений к вашей сети нет, настраивать ничего не нужно. Данные уходят, пока база открыта; закрыли — продолжится при следующем открытии.</span></li>
+</ol>
+</div>
+
+<div style="padding: clamp(24px, 3vw, 36px); border-radius: 18px; background: var(--surface); border: 1px solid var(--line); display: flex; flex-direction: column; gap: 20px">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<span class="num" style="font-size: 14px; color: var(--brand); font-weight: 500">Б</span>
+<h3 style="margin: 0; font-family: 'Literata', Georgia, serif; font-weight: 500; font-size: 26px; line-height: 1.2">С публикацией — забираем мы</h3>
+<p style="margin: 0; font-size: 16px; line-height: 1.55; color: var(--text-2)">Подходит, если у вас есть веб-сервер (Apache или IIS) и администратор.</p>
+</div>
+<ol style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 16px; border-top: 1px solid var(--line); padding-top: 20px">
+<li style="display: flex; gap: 14px; align-items: flex-start"><span class="num" style="flex: none; width: 28px; height: 28px; border-radius: 50%; background: var(--brand-soft); color: var(--brand); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 500">1</span><span style="font-size: 16px; line-height: 1.55">Ваш программист 1С ставит расширение — 10 минут, без снятия конфигурации с поддержки.</span></li>
+<li style="display: flex; gap: 14px; align-items: flex-start"><span class="num" style="flex: none; width: 28px; height: 28px; border-radius: 50%; background: var(--brand-soft); color: var(--brand); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 500">2</span><span style="font-size: 16px; line-height: 1.55">Администратор публикует два HTTP-сервиса и открывает их <strong>только нашему адресу</strong> — файл настройки собирает мастер в кабинете.</span></li>
+<li style="display: flex; gap: 14px; align-items: flex-start"><span class="num" style="flex: none; width: 28px; height: 28px; border-radius: 50%; background: var(--brand-soft); color: var(--brand); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 500">3</span><span style="font-size: 16px; line-height: 1.55">Ключ доступа мы записываем в вашу базу сами, по кнопке в мастере. Дальше загрузка идёт сама, ночью.</span></li>
 </ol>
 </div>
 </div>
@@ -436,8 +459,9 @@ body{margin:0}
 <span style="font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--brand)">Видите вы</span>
 <div style="border-radius: 10px; border: 1px solid var(--line); background: var(--surface); overflow: hidden">
 <div class="num" style="display: flex; justify-content: space-between; padding: 10px 16px; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-3); border-bottom: 1px solid var(--line)"><span>Контрагент</span><span>Долг (нетто)</span></div>
-<div style="display: flex; justify-content: space-between; gap: 16px; padding: 14px 16px; font-size: 17px"><span>Брест-Ритейл</span><span class="num">68 068</span></div>
+<div id="pv-row" style="display: flex; justify-content: space-between; gap: 16px; padding: 14px 16px; font-size: 17px"><span class="pv-name" aria-live="polite"><span class="pv-tag num" aria-hidden="true" style="color: var(--text-2)">t_7kq2…</span><span class="pv-real">Брест-Ритейл</span></span><span class="num">68 068</span></div>
 </div>
+<button type="button" id="pv-toggle" class="pv-btn" aria-pressed="false" aria-controls="pv-row" hidden><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7z"></path><circle cx="12" cy="12" r="3"></circle></svg><span id="pv-label">Показать имя в браузере</span></button>
 <p style="margin: 0; font-size: 14px; line-height: 1.5; color: var(--text-3)">В своём браузере, после своей парольной фразы.</p>
 </div>
 <div style="flex: 0 1 auto; display: flex; align-items: center; justify-content: center; padding: 0 4px; color: var(--text-3)" class="hide-sm">
@@ -449,7 +473,7 @@ body{margin:0}
 <div class="num" style="display: flex; justify-content: space-between; padding: 10px 16px; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-3); border-bottom: 1px solid var(--line)"><span>Контрагент</span><span>Долг (нетто)</span></div>
 <div style="display: flex; justify-content: space-between; gap: 16px; padding: 14px 16px; font-size: 17px"><span class="num" style="color: var(--text-2)">t_7kq2…</span><span class="num">68 068</span></div>
 </div>
-<p style="margin: 0; font-size: 14px; line-height: 1.5; color: var(--text-3)">Метка вместо имени — на всех тарифах, включая пробный.</p>
+<p style="margin: 0; font-size: 14px; line-height: 1.5; color: var(--text-3)"><strong style="color: var(--text-2); font-weight: 600">Здесь имя остаётся скрытым.</strong> Метка вместо имени — на всех тарифах, включая пробный.</p>
 </div>
 </div>
 
@@ -502,6 +526,7 @@ body{margin:0}
 <li>одна загрузка, один период</li>
 <li>метки вместо имён</li>
 </ul>
+<a class="btn btn-ghost" href="https://t.me/yavira_bot" style="margin-top: auto; align-self: flex-start; display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border: 1px solid var(--line); background: var(--surface); border-radius: 10px; font-size: 15px; font-weight: 600; box-sizing: border-box">Попробовать</a>
 </div>
 <div style="padding: 28px; border-radius: 16px; border: 1px solid var(--line); background: var(--bg); display: flex; flex-direction: column; gap: 16px">
 <h3 style="margin: 0; font-family: 'Literata', Georgia, serif; font-weight: 500; font-size: 26px">Базовый</h3>
@@ -510,6 +535,7 @@ body{margin:0}
 <li>история до <span class="num" style="color: var(--text)">2</span> лет</li>
 <li>метки вместо имён</li>
 </ul>
+<a class="btn btn-ghost" href="https://t.me/yavira_bot" style="margin-top: auto; align-self: flex-start; display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border: 1px solid var(--line); background: var(--surface); border-radius: 10px; font-size: 15px; font-weight: 600; box-sizing: border-box">Обсудить подключение</a>
 </div>
 <div style="padding: 28px; border-radius: 16px; border: 2px solid var(--brand); background: var(--bg); display: flex; flex-direction: column; gap: 16px">
 <h3 style="margin: 0; font-family: 'Literata', Georgia, serif; font-weight: 500; font-size: 26px">Полный</h3>
@@ -519,6 +545,7 @@ body{margin:0}
 <li>ассистент</li>
 <li>метки вместо имён</li>
 </ul>
+<a class="btn btn-primary" href="https://t.me/yavira_bot" style="margin-top: auto; align-self: flex-start; display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; background: var(--brand); border-radius: 10px; font-size: 15px; font-weight: 600; box-sizing: border-box">Узнать условия</a>
 </div>
 </div>
 </div>
@@ -594,6 +621,16 @@ body{margin:0}
   // источник заявки: yavira.by/?from=<метка> → t.me/yavira_bot?start=<метка>; без метки — site
   var src='site';try{var f=new URLSearchParams(location.search).get('from');if(f&&/^[A-Za-z0-9_-]{1,64}$/.test(f))src=f}catch(e){}
   [].forEach.call(document.querySelectorAll('a[href="https://t.me/yavira_bot"]'),function(a){a.href='https://t.me/yavira_bot?start='+src});
+  // приватность: метка ⇄ имя в браузере (без JS остаётся статичное имя)
+  var pvRow=document.getElementById('pv-row'),pvBtn=document.getElementById('pv-toggle');
+  if(pvRow&&pvBtn){
+    var pvTag=pvRow.querySelector('.pv-tag'),pvReal=pvRow.querySelector('.pv-real'),pvLabel=document.getElementById('pv-label');
+    function pvSet(on){pvRow.setAttribute('data-revealed',on?'true':'false');pvBtn.setAttribute('aria-pressed',on?'true':'false');
+      pvLabel.textContent=on?'Скрыть имя':'Показать имя в браузере';
+      pvTag.setAttribute('aria-hidden',on?'true':'false');pvReal.setAttribute('aria-hidden',on?'false':'true')}
+    pvRow.classList.add('pv-js');pvSet(false);pvBtn.hidden=false;
+    pvBtn.addEventListener('click',function(){pvSet(pvBtn.getAttribute('aria-pressed')!=='true')});
+  }
   var reduce=false;try{reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){}
   if(reduce)return;
   var els=[].slice.call(document.querySelectorAll('[data-count]'));
